@@ -3,9 +3,29 @@ import { z } from "zod";
 /**
  * ワークフロー
  */
+
+export type Command = {
+  id: string;
+  isDone: boolean;
+  name: string;
+  dueDate: Date;
+  postPoneCount: number;
+};
+export type Post = (command: Command) => PostPonableUnDoneTask;
+export const post: Post = (command: Command) => {
+  return PostPonableUnDoneTask.parse({
+    kind: POSTPONABLE_UNDONE_TASK,
+    id: command.id,
+    name: command.name,
+    dueDate: command.dueDate,
+    postPoneCount: command.postPoneCount,
+  });
+};
+
 export type Postpone = (task: PostPonableUnDoneTask) => UnDoneTask;
 export const postpone: Postpone = (task: PostPonableUnDoneTask) => {
-  const newDueDate = new Date(task.dueDate.getTime() + 24 * 60 * 60 * 1000);
+  const newDueDate = new Date(task.dueDate);
+  newDueDate.setDate(newDueDate.getDate() + 1);
 
   if (task.postPoneCount === 2) {
     return UnDoneTaskWithDeadline.parse({

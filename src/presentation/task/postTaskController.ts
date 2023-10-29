@@ -4,17 +4,10 @@ import { v4 as uuidv4 } from "uuid";
 import { postTaskUseCase } from "../../application/task/postTaskUseCase";
 import { fetchTaskQuery } from "../../infra/task/query/fetchTaskQuery";
 import { postTaskRepository } from "../../infra/task/repository/postTaskRepository";
+import { Command } from "../../domain/task/task";
 
 export type RequestBody = {
   name: string;
-};
-
-export type Command = {
-  id: string;
-  isDone: boolean;
-  name: string;
-  dueDate: Date;
-  postPoneCount: number;
 };
 
 export const postTaskController = async (
