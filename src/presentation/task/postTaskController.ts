@@ -23,7 +23,9 @@ export const postTaskController = async (
 ) => {
   const prisma = new PrismaClient();
 
-  const oneWeekLater = new Date(new Date().getTime() + 7 * 24 * 60 * 50 * 1000);
+  const oneWeekLater = new Date();
+  oneWeekLater.setDate(oneWeekLater.getDate() + 7);
+
   const command: Command = {
     id: uuidv4(),
     isDone: false,

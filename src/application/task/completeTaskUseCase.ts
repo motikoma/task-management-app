@@ -1,11 +1,17 @@
 import {
   CompleteTaskRepository,
+  DONE_TASK,
+  Task,
   TaskId,
+  UNDONE_TASK,
   complete,
 } from "../../domain/task/task";
-import { FetchTaskQuery } from "../../infra/task/query/fetchTaskQuery";
+import {
+  FetchTaskQuery,
+  fetchTaskQuery,
+} from "../../infra/task/query/fetchTaskQuery";
 
-import { toDomain } from "./taskDto";
+import { TaskDto, toDomain } from "./taskDto";
 
 export const completeTaskUseCase =
   (
@@ -14,22 +20,12 @@ export const completeTaskUseCase =
   ) =>
   async (taskId: TaskId) => {
     try {
-      // taskIdからtaskを取得
-      const task = await fetchTaskQuery(taskId);
+      const taskDto: TaskDto = await fetchTaskQuery(taskId);
+      const task = toDomain(taskDto);
+      if (task.kind === DONE_TASK) return taskDto;
 
-      // この分岐処理はUndoneTaskをDoneにする処理には本来不要
-      const domainObject = toDomain(task);
-      if (domainObject.kind === "UnDoneTaskWithDeadline") {
-        const result = await completeTaskRepository(complete(domainObject));
-
-        return await fetchTaskQuery(result.id);
-      } else if (domainObject.kind === "PostPonableUnDoneTask") {
-        const result = await completeTaskRepository(complete(domainObject));
-
-        return await fetchTaskQuery(result.id);
-      } else {
-        return task;
-      }
+      const result = await completeTaskRepository(complete(task));
+      return await fetchTaskQuery(result.id);
     } catch (error: any) {
       throw new Error(error);
     }

@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { DoneTask, TaskId } from "../../../domain/task/task";
+import { DONE_TASK, DoneTask, TaskId } from "../../../domain/task/task";
 
 export const completeTaskRepository =
   (prisma: PrismaClient) => async (doneTask: DoneTask) => {
@@ -12,7 +12,7 @@ export const completeTaskRepository =
       });
 
       const result = DoneTask.parse({
-        kind: "DoneTask",
+        kind: DONE_TASK,
         id: TaskId.parse(task.id),
         name: task.name,
         dueDate: task.dueDate,

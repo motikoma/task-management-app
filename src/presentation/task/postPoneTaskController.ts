@@ -14,7 +14,6 @@ export const postPoneTaskController = async (
   res: Response
 ) => {
   const prisma = new PrismaClient();
-  console.log(req.params.taskId);
 
   const result = await postPoneTaskUseCase(
     fetchTaskQuery(prisma),

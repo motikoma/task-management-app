@@ -1,6 +1,8 @@
-import { PrismaClient, Task } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import {
+  POSTPONABLE_UNDONE_TASK,
   PostPonableUnDoneTask,
+  UNDONE_TASK_WITH_DEADLINE,
   UnDoneTask,
   UnDoneTaskWithDeadline,
 } from "../../../domain/task/task";
@@ -8,7 +10,7 @@ import {
 export const postPoneTaskRepository =
   (prisma: PrismaClient) => async (unDoneTask: UnDoneTask) => {
     try {
-      if (unDoneTask.kind === "PostPonableUnDoneTask") {
+      if (unDoneTask.kind === POSTPONABLE_UNDONE_TASK) {
         const task = await prisma.task.update({
           where: { id: unDoneTask.id },
           data: {
@@ -18,7 +20,7 @@ export const postPoneTaskRepository =
         });
 
         return PostPonableUnDoneTask.parse({
-          kind: "PostPonableUnDoneTask",
+          kind: POSTPONABLE_UNDONE_TASK,
           id: task.id,
           name: task.name,
           dueDate: task.dueDate,
@@ -34,7 +36,7 @@ export const postPoneTaskRepository =
         });
 
         return UnDoneTaskWithDeadline.parse({
-          kind: "UndoneTaskWithDeadline",
+          kind: UNDONE_TASK_WITH_DEADLINE,
           id: task.id,
           name: task.name,
           dueDate: task.dueDate,

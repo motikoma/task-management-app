@@ -1,4 +1,5 @@
 import {
+  POSTPONABLE_UNDONE_TASK,
   PostPonableUnDoneTask,
   PostTaskRepository,
 } from "../../domain/task/task";
@@ -10,7 +11,7 @@ export const postTaskUseCase =
   async (command: Command) => {
     try {
       const postPonableUnDoneTask = PostPonableUnDoneTask.parse({
-        kind: "PostPonableUnDoneTask",
+        kind: POSTPONABLE_UNDONE_TASK,
         id: command.id,
         name: command.name,
         dueDate: command.dueDate,

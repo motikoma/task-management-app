@@ -1,4 +1,3 @@
-import { task } from "fp-ts";
 import { z } from "zod";
 
 /**
@@ -57,12 +56,9 @@ export type TaskId = z.infer<typeof TaskId>;
 export const TaskName = z.string().min(1).max(50);
 export type TaskName = z.infer<typeof TaskName>;
 
-export type Task = UnDoneTask | DoneTask;
-
-export type UnDoneTask = PostPonableUnDoneTask | UnDoneTaskWithDeadline;
-
+export const POSTPONABLE_UNDONE_TASK = "PostPonableUnDoneTask";
 export const PostPonableUnDoneTask = z.object({
-  kind: z.literal("PostPonableUnDoneTask"),
+  kind: z.literal(POSTPONABLE_UNDONE_TASK),
   id: TaskId,
   name: z.string(),
   dueDate: z.date(),
@@ -70,18 +66,27 @@ export const PostPonableUnDoneTask = z.object({
 });
 export type PostPonableUnDoneTask = z.infer<typeof PostPonableUnDoneTask>;
 
+export const UNDONE_TASK_WITH_DEADLINE = "UnDoneTaskWithDeadline";
 export const UnDoneTaskWithDeadline = z.object({
-  kind: z.literal("UnDoneTaskWithDeadline"),
+  kind: z.literal(UNDONE_TASK_WITH_DEADLINE),
   id: TaskId,
   name: z.string(),
   dueDate: z.date(),
 });
 export type UnDoneTaskWithDeadline = z.infer<typeof UnDoneTaskWithDeadline>;
 
+export const DONE_TASK = "DoneTask";
 export const DoneTask = z.object({
-  kind: z.literal("DoneTask"),
+  kind: z.literal(DONE_TASK),
   id: TaskId,
   name: z.string(),
   dueDate: z.date(),
 });
 export type DoneTask = z.infer<typeof DoneTask>;
+
+export type Task = UnDoneTask | DoneTask;
+export const TASK =
+  POSTPONABLE_UNDONE_TASK || UNDONE_TASK_WITH_DEADLINE || DONE_TASK;
+
+export type UnDoneTask = PostPonableUnDoneTask | UnDoneTaskWithDeadline;
+export const UNDONE_TASK = POSTPONABLE_UNDONE_TASK || UNDONE_TASK_WITH_DEADLINE;

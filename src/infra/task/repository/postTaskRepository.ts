@@ -1,5 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-import { PostPonableUnDoneTask } from "../../../domain/task/task";
+import {
+  POSTPONABLE_UNDONE_TASK,
+  PostPonableUnDoneTask,
+} from "../../../domain/task/task";
 
 export const postTaskRepository =
   (prisma: PrismaClient) =>
@@ -16,7 +19,7 @@ export const postTaskRepository =
       });
 
       return PostPonableUnDoneTask.parse({
-        kind: "PostPonableUnDoneTask",
+        kind: POSTPONABLE_UNDONE_TASK,
         id: task.id,
         name: task.name,
         dueDate: task.dueDate,

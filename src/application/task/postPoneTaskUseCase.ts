@@ -1,4 +1,5 @@
 import {
+  POSTPONABLE_UNDONE_TASK,
   PostPonableUnDoneTask,
   PostPoneTaskRepository,
   TaskId,
@@ -18,9 +19,8 @@ export const postPoneTaskUseCase =
       throw new Error("task is already done");
     }
 
-    // postPoneCountが3以上の場合はエラーになる
     const postPonableUnDoneTask = PostPonableUnDoneTask.parse({
-      kind: "PostPonableUnDoneTask",
+      kind: POSTPONABLE_UNDONE_TASK,
       id: TaskId.parse(task.id),
       name: task.name,
       dueDate: task.dueDate,
