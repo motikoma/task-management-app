@@ -2,7 +2,7 @@ import { PrismaClient, Task } from "@prisma/client";
 import {
   PostPonableUnDoneTask,
   UnDoneTask,
-  UndoneTaskWithDeadline,
+  UnDoneTaskWithDeadline,
 } from "../../../domain/task/task";
 
 export const postPoneTaskRepository =
@@ -33,7 +33,7 @@ export const postPoneTaskRepository =
           },
         });
 
-        return UndoneTaskWithDeadline.parse({
+        return UnDoneTaskWithDeadline.parse({
           kind: "UndoneTaskWithDeadline",
           id: task.id,
           name: task.name,

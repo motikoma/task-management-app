@@ -14,7 +14,7 @@ export const toDomain = (task: TaskDto): UnDoneTask | DoneTask => {
   if (task.isDone === false) {
     if (task.postPoneCount >= 3) {
       return {
-        kind: "UndoneTaskWithDeadline",
+        kind: "UnDoneTaskWithDeadline",
         id: TaskId.parse(task.id),
         name: task.name,
         dueDate: task.dueDate,

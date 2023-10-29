@@ -17,9 +17,9 @@ export const completeTaskUseCase =
       // taskIdからtaskを取得
       const task = await fetchTaskQuery(taskId);
 
-      // この分岐処理はUnDoneTaskをDoneにする処理には本来不要
+      // この分岐処理はUndoneTaskをDoneにする処理には本来不要
       const domainObject = toDomain(task);
-      if (domainObject.kind === "UndoneTaskWithDeadline") {
+      if (domainObject.kind === "UnDoneTaskWithDeadline") {
         const result = await completeTaskRepository(complete(domainObject));
 
         return await fetchTaskQuery(result.id);

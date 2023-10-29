@@ -9,8 +9,8 @@ export const postpone: Postpone = (task: PostPonableUnDoneTask) => {
   const newDueDate = new Date(task.dueDate.getTime() + 24 * 60 * 60 * 1000);
 
   if (task.postPoneCount === 2) {
-    return UndoneTaskWithDeadline.parse({
-      kind: "UndoneTaskWithDeadline",
+    return UnDoneTaskWithDeadline.parse({
+      kind: "UnDoneTaskWithDeadline",
       id: TaskId.parse(task.id),
       name: task.name,
       dueDate: newDueDate,
@@ -37,8 +37,6 @@ export const complete: Complete = (task: UnDoneTask): DoneTask => {
   });
 };
 
-// TODO: export CheckPostponeLimit =
-
 /**
  * リポジトリ
  */
@@ -61,7 +59,7 @@ export type TaskName = z.infer<typeof TaskName>;
 
 export type Task = UnDoneTask | DoneTask;
 
-export type UnDoneTask = PostPonableUnDoneTask | UndoneTaskWithDeadline;
+export type UnDoneTask = PostPonableUnDoneTask | UnDoneTaskWithDeadline;
 
 export const PostPonableUnDoneTask = z.object({
   kind: z.literal("PostPonableUnDoneTask"),
@@ -72,13 +70,13 @@ export const PostPonableUnDoneTask = z.object({
 });
 export type PostPonableUnDoneTask = z.infer<typeof PostPonableUnDoneTask>;
 
-export const UndoneTaskWithDeadline = z.object({
-  kind: z.literal("UndoneTaskWithDeadline"),
+export const UnDoneTaskWithDeadline = z.object({
+  kind: z.literal("UnDoneTaskWithDeadline"),
   id: TaskId,
   name: z.string(),
   dueDate: z.date(),
 });
-export type UndoneTaskWithDeadline = z.infer<typeof UndoneTaskWithDeadline>;
+export type UnDoneTaskWithDeadline = z.infer<typeof UnDoneTaskWithDeadline>;
 
 export const DoneTask = z.object({
   kind: z.literal("DoneTask"),
