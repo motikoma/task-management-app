@@ -86,6 +86,7 @@ export const PostPonableUnDoneTask = z.object({
 });
 export type PostPonableUnDoneTask = z.infer<typeof PostPonableUnDoneTask>;
 
+export const POSTPONE_COUNT_LIMIT = 3;
 export const UNDONE_TASK_WITH_DEADLINE = "UnDoneTaskWithDeadline";
 export const UnDoneTaskWithDeadline = z.object({
   kind: z.literal(UNDONE_TASK_WITH_DEADLINE),

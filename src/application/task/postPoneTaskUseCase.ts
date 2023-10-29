@@ -6,6 +6,7 @@ import {
   postpone,
 } from "../../domain/task/task";
 import { FetchTaskQuery } from "../../infra/task/query/fetchTaskQuery";
+import { TaskDto } from "./taskDto";
 
 export const postPoneTaskUseCase =
   (
@@ -13,18 +14,18 @@ export const postPoneTaskUseCase =
     postPoneTaskRepository: PostPoneTaskRepository
   ) =>
   async (taskId: TaskId) => {
-    const task = await fetchTaskQuery(taskId);
+    const taskDto: TaskDto = await fetchTaskQuery(taskId);
 
-    if (task.isDone) {
+    if (taskDto.isDone) {
       throw new Error("task is already done");
     }
 
     const postPonableUnDoneTask = PostPonableUnDoneTask.parse({
       kind: POSTPONABLE_UNDONE_TASK,
-      id: TaskId.parse(task.id),
-      name: task.name,
-      dueDate: task.dueDate,
-      postPoneCount: task.postPoneCount,
+      id: TaskId.parse(taskDto.id),
+      name: taskDto.name,
+      dueDate: taskDto.dueDate,
+      postPoneCount: taskDto.postPoneCount,
     });
 
     const result = await postPoneTaskRepository(

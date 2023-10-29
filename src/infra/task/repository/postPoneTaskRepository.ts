@@ -5,6 +5,7 @@ import {
   UNDONE_TASK_WITH_DEADLINE,
   UnDoneTask,
   UnDoneTaskWithDeadline,
+  POSTPONE_COUNT_LIMIT,
 } from "../../../domain/task/task";
 
 export const postPoneTaskRepository =
@@ -31,7 +32,7 @@ export const postPoneTaskRepository =
           where: { id: unDoneTask.id },
           data: {
             dueDate: unDoneTask.dueDate,
-            postPoneCount: 3,
+            postPoneCount: POSTPONE_COUNT_LIMIT,
           },
         });
 

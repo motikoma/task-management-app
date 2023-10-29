@@ -1,15 +1,10 @@
 import {
   CompleteTaskRepository,
   DONE_TASK,
-  Task,
   TaskId,
-  UNDONE_TASK,
   complete,
 } from "../../domain/task/task";
-import {
-  FetchTaskQuery,
-  fetchTaskQuery,
-} from "../../infra/task/query/fetchTaskQuery";
+import { FetchTaskQuery } from "../../infra/task/query/fetchTaskQuery";
 
 import { TaskDto, toDomain } from "./taskDto";
 
