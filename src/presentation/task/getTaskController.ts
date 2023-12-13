@@ -15,7 +15,13 @@ export const getTaskController = async (
   const prisma = new PrismaClient();
   const taskId = TaskId.parse(req.params.taskId);
 
-  const result = await getTaskUseCase(fetchTaskQuery(prisma))(taskId);
-
-  res.status(200).json({ result });
+  try {
+    const result = await getTaskUseCase(fetchTaskQuery(prisma))(taskId);
+    res.status(200).json({ result });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error);
+      res.status(500).json({});
+    }
+  }
 };

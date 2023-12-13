@@ -11,7 +11,7 @@ export const fetchTaskQuery =
     });
 
     if (!task) {
-      throw new Error("task not found");
+      throw new Error(`taskId: ${taskId} is not found`);
     }
 
     return task;
