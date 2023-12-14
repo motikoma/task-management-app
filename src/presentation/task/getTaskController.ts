@@ -13,6 +13,12 @@ export const getTaskController = async (
   res: Response
 ) => {
   const prisma = new PrismaClient();
+
+  if (!req.params.taskId || typeof req.params.taskId !== "string") {
+    res.status(400).json({});
+    return;
+  }
+
   const taskId = TaskId.parse(req.params.taskId);
 
   try {
