@@ -1,12 +1,14 @@
 import { PrismaClient, Task } from "@prisma/client";
+import { ResultAsync } from "neverthrow";
 
-export type FetchTaskListQuery = () => Promise<Task[]>;
-export const fetchTaskListQuery = (prisma: PrismaClient) => async () => {
-  try {
-    const taskList = await prisma.task.findMany();
-
-    return taskList;
-  } catch (error: any) {
-    throw new Error(error);
-  }
+export type FetchTaskListQuery = () => ResultAsync<Task[], Error>;
+export const fetchTaskListQuery = (prisma: PrismaClient) => () => {
+  // const taskList = await prisma.task.findMany();
+  return ResultAsync.fromPromise(
+    prisma.task.findMany(),
+    (error) =>
+      new Error("error", {
+        cause: error,
+      })
+  );
 };

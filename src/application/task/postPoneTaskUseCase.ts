@@ -20,13 +20,15 @@ export const postPoneTaskUseCase =
       throw new Error("task is already done");
     }
 
-    const postPonableUnDoneTask = PostPonableUnDoneTask.parse({
+    const task = {
       kind: POSTPONABLE_UNDONE_TASK,
       id: TaskId.parse(taskDto.id),
       name: taskDto.name,
       dueDate: taskDto.dueDate,
       postPoneCount: taskDto.postPoneCount,
-    });
+    } satisfies PostPonableUnDoneTask;
+
+    const postPonableUnDoneTask = PostPonableUnDoneTask.parse(task);
 
     const result = await postPoneTaskRepository(
       postpone(postPonableUnDoneTask)
