@@ -3,6 +3,7 @@ import {
   CreatePostTaskRepository,
   POSTPONABLE_UNDONE_TASK,
   PostPonableUnDoneTask,
+  TaskId,
 } from "../../../domain/task/task";
 
 export const postTaskRepository: CreatePostTaskRepository =
@@ -19,13 +20,15 @@ export const postTaskRepository: CreatePostTaskRepository =
         },
       });
 
-      return PostPonableUnDoneTask.parse({
+      const unvalidatedTask: PostPonableUnDoneTask = {
         kind: POSTPONABLE_UNDONE_TASK,
-        id: task.id,
+        id: TaskId.parse(task.id),
         name: task.name,
         dueDate: task.dueDate,
         postPoneCount: task.postPoneCount,
-      });
+      };
+
+      return PostPonableUnDoneTask.parse(unvalidatedTask);
     } catch (error: any) {
       throw new Error(error);
     }

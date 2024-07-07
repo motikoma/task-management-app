@@ -16,12 +16,14 @@ export const completeTaskRepository: CreateCompleteTaskRepository =
         },
       });
 
-      const result = DoneTask.parse({
+      const unvalidatedTask: DoneTask = {
         kind: DONE_TASK,
         id: TaskId.parse(task.id),
         name: task.name,
         dueDate: task.dueDate,
-      });
+      };
+
+      const result = DoneTask.parse(unvalidatedTask);
 
       return result;
     } catch (error: any) {

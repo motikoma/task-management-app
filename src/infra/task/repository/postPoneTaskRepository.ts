@@ -7,6 +7,7 @@ import {
   UnDoneTaskWithDeadline,
   POSTPONE_COUNT_LIMIT,
   CreatePostPoneTaskRepository,
+  TaskId,
 } from "../../../domain/task/task";
 
 export const postPoneTaskRepository: CreatePostPoneTaskRepository =
@@ -37,13 +38,14 @@ export const postPoneTaskRepository: CreatePostPoneTaskRepository =
           },
         });
 
-        return UnDoneTaskWithDeadline.parse({
+        const unvalidatedTask: UnDoneTaskWithDeadline = {
           kind: UNDONE_TASK_WITH_DEADLINE,
-          id: task.id,
+          id: TaskId.parse(task.id),
           name: task.name,
           dueDate: task.dueDate,
-          postPoneCount: task.postPoneCount,
-        });
+        };
+
+        return UnDoneTaskWithDeadline.parse(unvalidatedTask);
       }
     } catch (error: any) {
       throw new Error(error);
