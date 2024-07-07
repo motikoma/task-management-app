@@ -1,4 +1,7 @@
+import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
+
+// TODO: ワークフローが増えたらファイルを分割する
 
 /**
  * ワークフロー
@@ -66,6 +69,19 @@ export type CompleteTaskRepository = (doneTask: DoneTask) => Promise<DoneTask>;
 export type PostPoneTaskRepository = (
   UnDoneTask: UnDoneTask
 ) => Promise<UnDoneTask>;
+
+/**
+ * リポジトリの生成
+ */
+export type CreatePostTaskRepository = (
+  prismaClient: PrismaClient
+) => PostTaskRepository;
+export type CreateCompleteTaskRepository = (
+  prismaClient: PrismaClient
+) => CompleteTaskRepository;
+export type CreatePostPoneTaskRepository = (
+  prismaClient: PrismaClient
+) => PostPoneTaskRepository;
 
 /**
  * データ構造

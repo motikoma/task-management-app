@@ -1,7 +1,12 @@
 import { PrismaClient } from "@prisma/client";
-import { DONE_TASK, DoneTask, TaskId } from "../../../domain/task/task";
+import {
+  CreateCompleteTaskRepository,
+  DONE_TASK,
+  DoneTask,
+  TaskId,
+} from "../../../domain/task/task";
 
-export const completeTaskRepository =
+export const completeTaskRepository: CreateCompleteTaskRepository =
   (prisma: PrismaClient) => async (doneTask: DoneTask) => {
     try {
       const task = await prisma.task.update({

@@ -6,9 +6,10 @@ import {
   UnDoneTask,
   UnDoneTaskWithDeadline,
   POSTPONE_COUNT_LIMIT,
+  CreatePostPoneTaskRepository,
 } from "../../../domain/task/task";
 
-export const postPoneTaskRepository =
+export const postPoneTaskRepository: CreatePostPoneTaskRepository =
   (prisma: PrismaClient) => async (unDoneTask: UnDoneTask) => {
     try {
       if (unDoneTask.kind === POSTPONABLE_UNDONE_TASK) {

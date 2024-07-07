@@ -1,10 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 import {
+  CreatePostTaskRepository,
   POSTPONABLE_UNDONE_TASK,
   PostPonableUnDoneTask,
 } from "../../../domain/task/task";
 
-export const postTaskRepository =
+export const postTaskRepository: CreatePostTaskRepository =
   (prisma: PrismaClient) =>
   async (postPonableUnDoneTask: PostPonableUnDoneTask) => {
     try {
