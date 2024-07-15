@@ -4,12 +4,12 @@ import { getTaskWorkflow } from "./implementation";
 import { fetchTaskQuery } from "./fetchTaskQuery";
 import { TaskId } from "../common/publicTypes";
 
-export type RequestBody = {
+export type TaskRequestParams = {
     taskId: string;
 }
 
 export const getTaskApi = async (
-    req: Request<{},{}, RequestBody>,
+    req: Request<TaskRequestParams, {}, {}>,
     res: Response,
     next: NextFunction 
 ) => {
@@ -18,7 +18,7 @@ export const getTaskApi = async (
     const prisma = new PrismaClient();
 
     try {
-        const taskId = TaskId.parse(req.body.taskId);
+        const taskId = TaskId.parse(req.params.taskId);
 
         const result = await getTaskWorkflow(
           fetchTaskQuery(prisma)

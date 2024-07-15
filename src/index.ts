@@ -21,7 +21,7 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     return res.status(400).json({ error: err.stack });
   }
 
-  res.status(500).json({ error: err.message || 'Internal Server Error' });
+  res.status(500).json({ error: err.stack || 'Internal Server Error' });
 };
 
 
@@ -37,7 +37,7 @@ app.put("/api/tasks/:taskId/postpone", postPoneTaskController);
 
 // DMMF本に近いスタイル
 app.post("/api2/tasks", postTaskApi);
-app.post("/api2/tasks", getTaskApi);
+app.get("/api2/tasks/:taskId", getTaskApi);
 
 app.use(errorHandler);
 
