@@ -9,7 +9,6 @@ import {
 export const postTaskRepository: CreatePostTaskRepository =
   (prisma: PrismaClient) =>
   async (postPonableUnDoneTask: PostPonableUnDoneTask) => {
-    try {
       const task = await prisma.task.create({
         data: {
           id: postPonableUnDoneTask.id,
@@ -29,7 +28,4 @@ export const postTaskRepository: CreatePostTaskRepository =
       };
 
       return PostPonableUnDoneTask.parse(unvalidatedTask);
-    } catch (error: any) {
-      throw new Error(error);
-    }
   };

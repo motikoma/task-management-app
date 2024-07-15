@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { getTaskUseCase } from "../../application/task/getTaskUseCase";
 import { TaskId } from "../../domain/task/task";
 import { PrismaClient } from "@prisma/client";
@@ -10,7 +10,8 @@ interface TaskRequestParams {
 
 export const getTaskController = async (
   req: Request<TaskRequestParams, {}, {}>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   const prisma = new PrismaClient();
 
@@ -25,9 +26,6 @@ export const getTaskController = async (
     const result = await getTaskUseCase(fetchTaskQuery(prisma))(taskId);
     res.status(200).json({ result });
   } catch (error) {
-    if (error instanceof Error) {
-      console.error(error);
-      res.status(500).json({});
-    }
+    next(error);
   }
 };

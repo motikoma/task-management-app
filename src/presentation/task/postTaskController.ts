@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 import { postTaskUseCase } from "../../application/task/postTaskUseCase";
 import { fetchTaskQuery } from "../../infra/task/query/fetchTaskQuery";
@@ -12,7 +12,8 @@ export type RequestBody = {
 
 export const postTaskController = async (
   req: Request<{}, {}, RequestBody>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   const prisma = new PrismaClient();
 
@@ -27,10 +28,14 @@ export const postTaskController = async (
     postPoneCount: 0,
   };
 
-  const result = await postTaskUseCase(
-    fetchTaskQuery(prisma),
-    postTaskRepository(prisma)
-  )(command);
-
-  res.status(201).json({ result });
+  try {
+    const result = await postTaskUseCase(
+      fetchTaskQuery(prisma),
+      postTaskRepository(prisma)
+    )(command);
+  
+    res.status(201).json({ result });
+  } catch (error) {
+    next(error);
+  } 
 };

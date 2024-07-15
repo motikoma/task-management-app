@@ -1,9 +1,9 @@
 import { PrismaClient, Task } from "@prisma/client";
-import { TaskId } from "../../../domain/task/task";
+import { TaskId } from "../common/publicTypes";
 
 export type FetchTaskQuery = (taskId: TaskId) => Promise<Task>;
 export const fetchTaskQuery =
-  (prisma: PrismaClient) => async (taskId: TaskId) => {
+  (prisma: PrismaClient): FetchTaskQuery => async (taskId: TaskId) => {
     const task = await prisma.task.findUnique({
       where: {
         id: taskId,
