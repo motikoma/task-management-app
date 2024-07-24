@@ -7,7 +7,8 @@ import { TaskId } from "../common/publicTypes";
 export const VALIDATED_TASK = "ValidatedTask" as const;
 export const CREATED_TASK = "CreatedTask" as const;
 
-export const ValidatedTask = z.object({
+// MEMO: brand型を使用せずにkindなどで判別するパターン
+export const ValidatedTaskSchema = z.object({
   kind: z.literal(VALIDATED_TASK),
   id: TaskId,
   name: z.string(),
@@ -15,9 +16,10 @@ export const ValidatedTask = z.object({
   postPoneCount: z.number(),
   isDone: z.boolean()
 });
-export type ValidatedTask = z.infer<typeof ValidatedTask>;
+export type ValidatedTask = z.infer<typeof ValidatedTaskSchema>;
+export type ValidatedTaskInput = z.input<typeof ValidatedTaskSchema>;
 
-export const CreatedTask = z.object({
+export const CreatedTaskSchema = z.object({
   kind: z.literal(CREATED_TASK),
   id: TaskId,
   name: z.string(),
@@ -25,7 +27,8 @@ export const CreatedTask = z.object({
   postPoneCount: z.number(),
   isDone: z.boolean()
 });
-export type CreatedTask = z.infer<typeof CreatedTask>;
+export type CreatedTask = z.infer<typeof CreatedTaskSchema>;
+export type CreatedTaskInput = z.input<typeof CreatedTaskSchema>;
 
 /**
  * リポジトリ

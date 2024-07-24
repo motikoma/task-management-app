@@ -18,6 +18,7 @@ export const getTaskApi = async (
     const prisma = new PrismaClient();
 
     try {
+        // MEMO: コマンドもしくはイベント形式にすることも可能
         const taskId = TaskId.parse(req.params.taskId);
 
         const result = await getTaskWorkflow(

@@ -1,10 +1,12 @@
 import { PrismaClient } from "@prisma/client";
-import { ValidatedTask, CREATED_TASK, CreatedTask, PostTaskRepository } from "./publicTypes";
+import { CREATED_TASK, CreatedTask, CreatedTaskInput, CreatedTaskSchema, PostTaskRepository, ValidatedTaskInput } from "./publicTypes";
 import { TaskId } from "../common/publicTypes";
 
 export const postTaskRepository =
   (prisma: PrismaClient): PostTaskRepository =>
-  async (input: ValidatedTask) => {
+  async (input: ValidatedTaskInput) => {
+    // MEMO: 本来はトランザクションは不要だがサンプルとして記述
+    return prisma.$transaction(async (prisma) => {
       const task = await prisma.task.create({
         data: {
           id: TaskId.parse(input.id),
@@ -16,7 +18,7 @@ export const postTaskRepository =
       });
 
       // MEMO: ドメインオブジェクトに変換は必要？
-      const createdTask: CreatedTask = {
+      const createdTask: CreatedTaskInput = {
         kind: CREATED_TASK,
         id: TaskId.parse(task.id),
         name: task.name,
@@ -25,5 +27,6 @@ export const postTaskRepository =
         isDone: task.isDone,
       };
 
-      return CreatedTask.parse(createdTask);
+      return CreatedTaskSchema.parse(createdTask);
+    });
   };

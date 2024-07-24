@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
+import express, { ErrorRequestHandler } from 'express';
 import { getTaskController } from "./presentation/task/getTaskController";
 import { getTaskListController } from "./presentation/task/getTaskListController";
 import { postTaskController } from "./presentation/task/postTaskController";
@@ -7,8 +7,7 @@ import { postPoneTaskController } from "./presentation/task/postPoneTaskControll
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { postTaskApi } from './api/taskManagement/postTask/postTaskApi';
 import { getTaskApi } from './api/taskManagement/getTask/getTaskApi';
-
-// TODO: prismaClientを初期化して使い回す
+import { postponeTaskApi } from './api/taskManagement/postponeTask/postponeTaskApi';
 
 const app = express();
 const port = 3003;
@@ -38,6 +37,7 @@ app.put("/api/tasks/:taskId/postpone", postPoneTaskController);
 // DMMF本に近いスタイル
 app.post("/api2/tasks", postTaskApi);
 app.get("/api2/tasks/:taskId", getTaskApi);
+app.put("/api2/tasks/:taskId/postpone", postponeTaskApi);
 
 app.use(errorHandler);
 
